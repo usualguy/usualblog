@@ -51,3 +51,7 @@ export {
   Flex,
   ConditionalRender,
 }
+import TitleEmoji from "./TitleEmoji"
+export {
+  TitleEmoji,
+}
