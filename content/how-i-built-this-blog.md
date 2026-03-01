@@ -7,84 +7,82 @@ tags: [blog, quartz, obsidian, web-dev]
 
 ## The Setup
 
-I wanted a blog. Not a platform, not a CMS, not a "solution." Just a place to write markdown files and have them appear on the internet. Bonus points if I could write them in Obsidian, since that's where all my notes live anyway.
+I wanted a blog. A place to write markdown files and publish them to the internet. I write in Obsidian, so the blog needed to understand my existing notes without conversion.
 
-The constraint: I wanted it done today. No weekend research rabbit holes about blogging platforms. No Docker containers to maintain. No security updates to worry about.
+The constraint: finish today. No weekend research sessions. No Docker containers. No maintenance overhead.
 
 ## The Stack
 
-**Quartz 4** - A static site generator that natively understands Obsidian's wikilinks (`[[like this]]`). It's written in TypeScript, builds in milliseconds, and deploys to GitHub Pages with zero config.
+**Quartz 4** - A static site generator built in TypeScript that understands Obsidian's wikilinks (`[[like this]]`). Builds in milliseconds. Deploys to GitHub Pages with zero configuration.
 
-**Obsidian** - Plain markdown files in a folder. That's it. No export step, no conversion, no sync issues.
+**Obsidian** - Plain markdown files in a folder. No export step. No format conversion.
 
-**GitHub Actions** - Free CI/CD that rebuilds the site on every push. The entire deployment pipeline is a 40-line YAML file that came with Quartz.
+**GitHub Actions** - Free CI/CD that rebuilds on every push. The deployment pipeline is a 40-line YAML file included with Quartz.
 
-## Why Not Hugo? Why Not Jekyll?
+## Choosing Quartz
 
-I looked at both. Hugo is fast (167ms for 170 pages) and Jekyll is mature. But both require me to think about themes, layouts, and templating languages (Liquid for Jekyll, Go templates for Hugo).
+I evaluated Hugo and Jekyll. Hugo builds fast (167ms for 170 pages). Jekyll has maturity and plugins. Both require theme selection, layout configuration, and learning templating languages (Liquid for Jekyll, Go templates for Hugo).
 
-Quartz's pitch: it's opinionated. You get a clean, minimal theme out of the box. You write markdown. It makes HTML. The end.
+Quartz makes one choice: clean, minimal theme by default. Write markdown. Get HTML.
 
-The killer feature: **Obsidian compatibility**. Quartz understands `[[wikilinks]]`, backlinks, and Obsidian's frontmatter. My notes work as blog posts without modification.
+The deciding factor: **native Obsidian support**. Quartz processes `[[wikilinks]]`, backlinks, and Obsidian frontmatter directly. My notes become blog posts without modification.
 
 ## The Build Process
 
-Here's the entire workflow:
+The workflow:
 
 1. Write `content/my-post.md` in Obsidian
 2. `git add . && git commit && git push`
 3. GitHub Actions runs `npx quartz build`
-4. Deploy to GitHub Pages
+4. Site deploys to GitHub Pages
 
-That's it. No build scripts, no deployment configuration, no server management.
-
-The build itself is trivial:
+The build command:
 
 ```bash
 npx quartz build
 # Done processing 2 files in 78ms
 ```
 
-Seventy-eight milliseconds. My coffee hasn't cooled down before the site is ready.
+Seventy-eight milliseconds from markdown to deployed site.
 
 ## The Custom Touch
 
-The default theme is clean. Maybe too clean. I wanted something that felt like *mine* without redesigning everything.
+The default theme felt sterile. I wanted personality without a full redesign.
 
-So I added 180 plant emojis (🌱🌿🍃🌲🌳🌵) that animate in an ellipse around the site title. They fade in and out continuously, like a digital garden should.
+I added 180 plant emojis (🌱🌿🍃🌲🌳🌵) that animate in an ellipse around the site title. They fade and respawn continuously, like a digital garden.
 
-The implementation is about 80 lines of TypeScript that:
-- Creates emoji elements dynamically
-- Positions them in an ellipse using parametric equations
-- Runs a lifecycle where 3-4 random emojis respawn every 800ms
-- Uses inline styles and `z-index: -1` to stay behind the text
+The implementation: 80 lines of TypeScript that:
+- Create emoji elements dynamically
+- Position them using parametric ellipse equations
+- Respawn 3-4 random emojis every 800ms
+- Use inline styles with `z-index: -1` to layer behind text
 
-No custom CSS framework. No React. No build step. Just a small component that Quartz bundles automatically.
+Quartz bundles this as a component automatically. No CSS framework. No React. No separate build step.
 
-## What I'd Do Differently
+## Decisions I Made
 
-Honestly? Not much. The constraint of "done today" forced good decisions:
+**Static over dynamic** - Zero backend. Zero attack surface. GitHub serves files from their CDN.
 
-- **Static over dynamic** - No database, no backend, no attack surface
-- **Opinionated tools** - Quartz makes choices so I don't have to
-- **Git as CMS** - Version control, rollback, branching. All free.
-- **Minimal customization** - The emoji effect is ~100 lines total
+**Opinionated tools** - Quartz chooses defaults. I write content instead of configuring themes.
 
-The only thing I'd change: I should have done this years ago. I spent too long researching "the perfect setup" instead of just shipping.
+**Git as CMS** - Version control, rollback, and branching come free.
 
-## The Point
+**Minimal code** - The entire emoji effect is ~100 lines. The blog works without it.
 
-This isn't a tutorial. It's a reminder: the best blog is the one you actually write on.
+I'd make the same choices again. The "finish today" constraint eliminated analysis paralysis.
 
-My setup costs:
+## Costs
+
 - **Money**: $0 (GitHub Pages free tier)
-- **Time**: 3 hours (including emoji animation)
+- **Time**: 3 hours (including the emoji animation)
 - **Maintenance**: 0 minutes (GitHub handles security, updates, CDN)
 
-Your setup might be different. Hugo, Jekyll, Astro, SvelteKit - all valid. The tool doesn't matter. Writing does.
+## Write
 
-So pick something boring. Ship it. Write.
+Pick a tool. Ship it. Write.
+
+Hugo, Jekyll, Astro, SvelteKit, Quartz—they all work. The tool matters less than publishing consistently.
 
 ---
 
-*The source for this blog is at [github.com/usualguy/usualblog](https://github.com/usualguy/usualblog). The emoji animation code is in `quartz/components/scripts/title-emoji.inline.ts` if you want to steal it.*
+*Source code: [github.com/usualguy/usualblog](https://github.com/usualguy/usualblog). The emoji animation lives in `quartz/components/scripts/title-emoji.inline.ts`.*
