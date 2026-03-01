@@ -1,4 +1,4 @@
-# Anton's Blog
+# usualguy's Blog
 
 Minimal static blog powered by Quartz and Obsidian, deployed to GitHub Pages.
 
