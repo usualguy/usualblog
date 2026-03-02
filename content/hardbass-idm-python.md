@@ -83,9 +83,8 @@ Everything synthesizes from scratch. No samples. No loops. The script generates 
 You can listen to it right here:
 
 <audio controls style="width: 100%; margin: 20px 0;">
-  <source src="/assets/hardbass_idm.mp3" type="audio/mpeg">
-  <source src="/assets/hardbass_idm.ogg" type="audio/ogg">
-  Your browser doesn't support the audio element. <a href="/assets/hardbass_idm.mp3">Download the track</a> instead.
+  <source src="/blog/assets/hardbass_idm.mp3" type="audio/mpeg">
+  Your browser doesn't support the audio element. <a href="/blog/assets/hardbass_idm.mp3">Download the track</a> instead.
 </audio>
 
 **What you're hearing:**
