@@ -6,46 +6,39 @@ tags:
   - ai
   - ollama
   - openclaw
-  - python
 ---
 
-Every morning at 7 AM, I get a news digest in Telegram. Not just an RSS feed—a real newspaper with layout, headlines, and smart AI-powered summaries.
+So here's the thing—I was drowning in news tabs.
 
-Here's what's under the hood.
+You know that feeling. Fifteen browser tabs open. BBC, Meduza, Zona, Reuters. Half-read articles everywhere. And I still don't know what actually *matters* today.
 
-## 🔥 Features
+So I built a bot that makes me a newspaper. Every morning. At 7 AM. In my Telegram.
 
-**1. Aggregates from Multiple Sources**
+Not an RSS feed. An actual newspaper. With layout. Headlines. And a 30-word summary written by AI that actually sounds... fine?
 
-- BBC Russian, Meduza, Mediazona
-- Filters out articles older than 24 hours
-- Merges duplicate stories from different sources (shows all source links)
+Here's how it works.
 
-**2. AI-Written Introduction via Local LLM**
+## What It Does
 
-- Grabs all headlines → sends to Ollama (qwen2.5:7b)
-- Gets ~30 words in news editor style
-- Emojis match the tone (⚠️ for war, 🕯️ for tragedy, 🎭 for absurdity)
-- Falls back to template if Ollama times out
+**Pulls from three sources** — BBC Russian, Meduza, Mediazona. Only articles from the last 24 hours. Everything else gets tossed.
 
-**3. Dynamic Visual Theming**
+**Merges duplicates** — If all three outlets cover the same story, it combines them. Shows you all the sources. No repetition.
 
-Analyzes content and auto-selects theme:
+**Writes an intro** — Sends all the headlines to my local Ollama (qwen2.5:7b). Gets back ~30 words in news editor style. With emojis that match the mood.
 
-- **War/Repression** → dark "Fractured Authority", blood-red accents
-- **Technology** → clean white, monospace fonts
-- **Culture** → elegant cream, gold accents
-- **General News** → classic newsprint texture
+War going on? ⚠️. Someone died? 🕯️. Government being absurd? 🎭.
 
-**4. Publishes to Telegraph**
+**Picks a visual theme** — Heavy news gets a dark, brutalist design. Tech stories go clean and modern. Culture pieces get elegant cream backgrounds.
 
-- Converts HTML to Telegraph nodes
-- Sends link to Telegram
-- Instant View works out of the box
+**Publishes to Telegraph** — Sends me a link. Instant View works. I read it in 30 seconds while making coffee.
 
-## 🛠 Technical Deep Dive
+## The Technical Bits
 
-### AI Summary (via local Ollama)
+### AI Summary
+
+I was skeptical about this part. Most AI summaries are garbage. Too long. Too vague.
+
+So I got strict:
 
 ```python
 prompt = f"""
@@ -57,16 +50,19 @@ STRICT:
 - 1-2 emojis at the start
 - Key topics + sources
 """
-
-result = subprocess.run(
-    ['ollama', 'run', 'qwen2.5:7b', prompt],
-    capture_output=True, text=True, timeout=60
-)
 ```
 
-The prompt is carefully engineered to produce consistent, concise summaries. The 30-word limit forces the model to prioritize what matters.
+The constraint helps. 30 words forces it to prioritize. No fluff.
 
-### Tone Analysis
+Today's output:
+
+> 🚨 War with Iran, France expands nuclear arsenal, repression in Russia. Trump, Macron, Dubai airport. BBC, Meduza, Mediazona.
+
+That's it. That's the news. I know immediately if I want to dive deeper.
+
+### Tone Detection
+
+It scans for keywords:
 
 ```python
 CONTENT_PATTERNS = {
@@ -77,64 +73,40 @@ CONTENT_PATTERNS = {
 }
 ```
 
-Each category has an emotional weight. War scores highest (0.9), tragedy (0.8), repression (0.85). The dominant category determines the visual theme.
+Each category has a weight. War scores highest. The dominant theme picks the visual design.
 
 ### Deduplication
 
-```python
-def stories_are_similar(self, s1, s2, threshold=0.75):
-    # Compare normalized titles
-    # Merge only if 75%+ word overlap
-    # AND from different sources (preserve diversity)
-```
+This took a few tries. My first version just grabbed the top 10 headlines. Problem? All three sources often cover the same story.
 
-This is critical. Different outlets cover the same story with slightly different angles. The skill merges them but shows all sources—preserving diversity while avoiding repetition.
+Now it compares titles. If they're 75%+ similar AND from different sources, it merges them. Shows all the links. You get the full picture without the repetition.
 
-## 📅 Automation
+## Automation
 
 Cron job at 7 AM:
 
 ```bash
-0 7 * * * cd /path/to/newspaper && source .venv/bin/activate && \
-  python newspaper_skill.py && \
-  python telegraph_publish.py --send-tg
+0 7 * * * cd /path && python newspaper_skill.py && python telegraph_publish.py --send-tg
 ```
 
-The script generates the newspaper, publishes to Telegraph, and sends the link to Telegram. Total runtime: ~90 seconds.
+Takes about 90 seconds total. Most of that is waiting for Ollama.
 
-## 🎯 Why I Built This
+## Why Bother?
 
-**Saves time** — 30 seconds to read vs 15 minutes scrolling feeds
+Honestly? I was tired of feeling behind.
 
-**Context** — see the big picture, not scattered headlines
+The news isn't going anywhere. But scrolling fifteen feeds every morning was eating time I didn't have. And I'd still miss stuff.
 
-**Sources** — immediately know who reported what
+Now I get one digest. 30 seconds to read. If something catches my eye, I click through. If not, I'm done.
 
-**Visual comfort** — dark theme in the morning doesn't hurt your eyes
+It's not perfect. The AI sometimes picks weird details. The theme detection isn't always right. But it's *mine*. Runs locally. No API keys. No tracking.
 
-## 📦 Open Source
-
-Everything's public. OpenClaw skill, Python 3.10+, local Ollama.
-
-**Stack:**
-
-- Python + feedparser + Playwright
-- Ollama (qwen2.5:7b) for AI summaries
-- Telegraph API for publishing
-- BeautifulSoup for HTML parsing
-
-## Example Output
-
-Today's summary:
-
-> 🚨 War with Iran, France expands nuclear arsenal, repression in Russia. Trump, Macron, Dubai airport. BBC, Meduza, Mediazona.
-
-That's 16 words. Takes 20 seconds to read. Tells you everything you need to know to decide if you want to dive deeper.
+And I sleep better knowing I'm not missing anything important.
 
 ---
 
-*Note: This isn't a replacement for journalists. It's a tool to avoid drowning in the noise. AI writes the summary, but the decisions and interpretations are still yours.*
+**Stack:** Python, feedparser, Playwright, Ollama (qwen2.5:7b), Telegraph API
 
-**Repo:** `/Users/macmini/.openclaw/workspace/skills/newspaper`
+**Code:** OpenClaw skill, Python 3.10+
 
-**Live demo:** Check your Telegram at 7 AM tomorrow.
+*This isn't replacing journalists. It's just helping me keep up. The actual reading—and thinking—is still on me.*
