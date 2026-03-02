@@ -10,7 +10,7 @@ tags:
 
 So here's the thing—I was drowning in news tabs.
 
-You know that feeling. Fifteen browser tabs open. BBC, Meduza, Zona, Reuters. Half-read articles everywhere. And I still don't know what actually *matters* today.
+You know that feeling. Fifteen browser tabs open. Half-read articles everywhere. And I still don't know what actually *matters* today.
 
 So I built a bot that makes me a newspaper. Every morning. At 7 AM. In my Telegram.
 
@@ -20,9 +20,9 @@ Here's how it works.
 
 ## What It Does
 
-**Pulls from three sources** — BBC Russian, Meduza, Mediazona. Only articles from the last 24 hours. Everything else gets tossed.
+**Pulls from multiple RSS sources** — Only articles from the last 24 hours. Everything else gets tossed.
 
-**Merges duplicates** — If all three outlets cover the same story, it combines them. Shows you all the sources. No repetition.
+**Merges duplicates** — If different outlets cover the same story, it combines them. Shows you all the sources. No repetition.
 
 **Writes an intro** — Sends all the headlines to my local Ollama (qwen2.5:7b). Gets back ~30 words in news editor style. With emojis that match the mood.
 
@@ -54,9 +54,9 @@ STRICT:
 
 The constraint helps. 30 words forces it to prioritize. No fluff.
 
-Today's output:
+Typical output looks like:
 
-> 🚨 War with Iran, France expands nuclear arsenal, repression in Russia. Trump, Macron, Dubai airport. BBC, Meduza, Mediazona.
+> ⚠️ Main story headline here. Key themes from other articles. Sources mentioned.
 
 That's it. That's the news. I know immediately if I want to dive deeper.
 
@@ -77,7 +77,7 @@ Each category has a weight. War scores highest. The dominant theme picks the vis
 
 ### Deduplication
 
-This took a few tries. My first version just grabbed the top 10 headlines. Problem? All three sources often cover the same story.
+This took a few tries. My first version just grabbed the top 10 headlines. Problem? All the sources often cover the same story.
 
 Now it compares titles. If they're 75%+ similar AND from different sources, it merges them. Shows all the links. You get the full picture without the repetition.
 
