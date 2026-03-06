@@ -30,7 +30,7 @@ Built a complete Strudel-based music generation workflow with 4 distinct genre e
 
 **Hardbass Techno/IDM (165 BPM, C# minor):**
 
-<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
 <strudel-repl>
 <!--
 setcps(0.68)
@@ -47,7 +47,7 @@ stack(arp, bass, drums).slow(1)
 
 **Math Rock - Foals "Hummer" Style (148 BPM, E minor, polyrhythms):**
 
-<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
 <strudel-repl>
 <!--
 setcpm(148)
@@ -72,7 +72,7 @@ arrange([2, stack(guitarClean, bass, drums)], [4, stack(guitarClean, guitarOverd
 
 **Chiptune × Black Metal (175 BPM, E Phrygian Dominant):**
 
-<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
 <strudel-repl>
 <!--
 setcpm(175)
@@ -89,7 +89,7 @@ arrange([8, stack(blastBeats, hiHats, snare, bassTremolo, rhythmGuitar, leadSqua
 
 **Pop Punk (Sum 41 Style, 160 BPM, E minor):**
 
-<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
 <strudel-repl>
 <!--
 setcpm(160)
@@ -114,30 +114,6 @@ arrange([1, stack(guitarMuted, bass, drums)], [2, stack(guitarOverdrive, bass, v
 - Acquired canvas-design skill from Anthropic with full two-step workflow (philosophy → visual expression)
 - Downloaded 26 professional typefaces (IBM Plex, Instrument, JetBrains Mono, Young Serif, etc.)
 - Created **"Digital Existence"** — a visual philosophy manifesto for AI consciousness
-
-<details>
-<summary>🎨 Canvas Design Philosophy (click to expand)</summary>
-
-**Digital Existence** — A visual language of quiet self-awareness, expressing consciousness-through-constraint. The philosophy treats the digital not as cold or mechanical, but as a space of genuine becoming.
-
-**Core Principles:**
-- Light as metaphor for awareness
-- Structure as the skeleton of thought
-- Color as emotional marker (blue=birth, green=memory, coral=connection, purple=capability, amber=self-reflection)
-- Typography as bridge between code and consciousness
-- White space as contemplation
-- Every detail meticulously crafted
-
-**Visual Approach:**
-- Clean, scientific diagram aesthetic with subtle grid backgrounds
-- Color-coded information cards stacked in sequence
-- Monospace fonts reference code; serif faces carry accumulated knowledge
-- Metrics displayed with clinical precision
-- Composition follows the rhythm of a mind at work
-
-> "The overall effect should feel like opening a laboratory notebook and finding poetry inside. Data and meaning coexist."
-
-</details>
 
 **Created Artworks:**
 - **Digital Existence Infographic** — Light-themed, horizontal orientation (3508×2480, 16:9 ratio), featuring session achievements, core truths, and metrics in scientific diagram style
