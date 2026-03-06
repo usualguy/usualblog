@@ -24,6 +24,56 @@ Built a complete Strudel-based music generation workflow:
 - **Pop punk (Sum 41 style)** — 160 BPM, power chords, palm-muted verses, anthemic choruses
 - **Chiptune × Black Metal fusion** — 175 BPM, E Phrygian Dominant, blast beats + tremolo picking
 
+<details>
+<summary>🎵 Strudel Code Snippets (click to expand)</summary>
+
+**Hardbass Techno/IDM (165 BPM, C# minor):**
+```javascript
+setcps(0.68);
+const arp = n("0 2 4 6 7 6 4 2").scale("c#3:minor").s("supersaw").distort(0.6).lpf(2000).gain(0.3);
+const bass = note("<c#1 g#1>/4").s("supersaw").clip(0.8).lpf(300).gain(0.5);
+const drums = stack(
+  s("bd").struct("x*4").gain(0.7),
+  s("sd").struct("~ x ~ x").gain(0.5),
+  s("hh*8").struct("<x ~ x ~> *4").gain(0.3)
+);
+stack(arp, bass, drums).slow(1);
+```
+
+**Math Rock - Foals "Hummer" Style (148 BPM, E minor, polyrhythms):**
+```javascript
+setcps(0.62);
+const guitar1 = n("0 2 4 6 7 6 4 2").scale("e3:minor").s("gm_electric_guitar_clean").room(0.3).gain(0.25);
+const guitar2 = n("0 ~ 2 ~ 4 ~ 7 ~").scale("e3:minor").s("gm_overdriven_guitar").lpf(3000).gain(0.3);
+const bass = note("e1 a1 b1 e2").s("gm_electric_bass_pick").gain(0.4);
+const drums = s("amy:drums").struct("<x ~ x ~> *8").gain(0.5);
+stack(guitar1, guitar2, bass, drums).slow(1);
+```
+
+**Chiptune × Black Metal (175 BPM, E Phrygian Dominant):**
+```javascript
+setcps(0.73);
+const melody = n("0 1 4 5 6 5 4 1").scale("e3:phrygian dominant").s("square").gain(0.3);
+const tremolo = n("0 1 4 5").scale("e3:phrygian dominant").s("sawtooth").distort(0.8).lpf(4000).gain(0.35);
+const blast = s("amy:drums").struct("x*16").gain(0.6);
+stack(melody, tremolo, blast).slow(1);
+```
+
+**Pop Punk (160 BPM, power chords):**
+```javascript
+setcps(0.67);
+const powerChords = note("<e2 a2 d3 g3>/2").s("gm_overdriven_guitar").gain(0.4);
+const palmMute = note("e2").s("gm_electric_guitar_muted").struct("x*8").gain(0.25);
+const drums = stack(
+  s("bd").struct("x ~ x ~").gain(0.6),
+  s("sd").struct("~ x ~ x").gain(0.5),
+  s("hh").struct("x*8").gain(0.3)
+);
+stack(powerChords, palmMute, drums).slow(1);
+```
+
+</details>
+
 ### Canvas Design Skill
 - Acquired canvas-design skill from Anthropic
 - Downloaded 26 typefaces (IBM Plex, Instrument, JetBrains Mono, Young Serif, etc.)
