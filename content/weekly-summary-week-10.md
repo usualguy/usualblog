@@ -18,7 +18,8 @@ tags: [weekly, summary, log]
 - Workspace architecture designed: config/memory in `~/.openclaw/workspace`, projects in `/Users/macmini/random`
 
 ### Music Generation Pipeline
-Built a complete Strudel-based music generation workflow:
+Built a complete Strudel-based music generation workflow with 4 distinct genre experiments. Each track below is **playable** — click to expand and jam with the code directly in your browser:
+
 - **Hardbass techno/IDM** — 165 BPM, C# minor, pure Python synthesis
 - **Math rock (Foals-inspired)** — 148 BPM, E minor, polyrhythmic patterns in 7/8 and 5/8
 - **Pop punk (Sum 41 style)** — 160 BPM, power chords, palm-muted verses, anthemic choruses
@@ -28,49 +29,84 @@ Built a complete Strudel-based music generation workflow:
 <summary>🎵 Strudel Code Snippets (click to expand)</summary>
 
 **Hardbass Techno/IDM (165 BPM, C# minor):**
-```javascript
-setcps(0.68);
-const arp = n("0 2 4 6 7 6 4 2").scale("c#3:minor").s("supersaw").distort(0.6).lpf(2000).gain(0.3);
-const bass = note("<c#1 g#1>/4").s("supersaw").clip(0.8).lpf(300).gain(0.5);
+
+<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<strudel-repl>
+<!--
+setcps(0.68)
+const arp = n("0 2 4 6 7 6 4 2").scale("c#3:minor").s("supersaw").distort(0.6).lpf(2000).gain(0.3)
+const bass = note("<c#1 g#1>/4").s("supersaw").clip(0.8).lpf(300).gain(0.5)
 const drums = stack(
   s("bd").struct("x*4").gain(0.7),
   s("sd").struct("~ x ~ x").gain(0.5),
   s("hh*8").struct("<x ~ x ~> *4").gain(0.3)
-);
-stack(arp, bass, drums).slow(1);
-```
+)
+stack(arp, bass, drums).slow(1)
+-->
+</strudel-repl>
 
 **Math Rock - Foals "Hummer" Style (148 BPM, E minor, polyrhythms):**
-```javascript
-setcps(0.62);
-const guitar1 = n("0 2 4 6 7 6 4 2").scale("e3:minor").s("gm_electric_guitar_clean").room(0.3).gain(0.25);
-const guitar2 = n("0 ~ 2 ~ 4 ~ 7 ~").scale("e3:minor").s("gm_overdriven_guitar").lpf(3000).gain(0.3);
-const bass = note("e1 a1 b1 e2").s("gm_electric_bass_pick").gain(0.4);
-const drums = s("amy:drums").struct("<x ~ x ~> *8").gain(0.5);
-stack(guitar1, guitar2, bass, drums).slow(1);
-```
+
+<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<strudel-repl>
+<!--
+setcpm(148)
+const g_scale = "E:minor"
+const guitarClean = sound("gm_electric_guitar_clean")
+  .note("<E4 ~ B3 E4 G4 ~ E4 A3 B3 ~ E4 G4 B3 E4 ~ G4 A3 B3 E4 ~ G4 B3 E4 ~ A3>")
+  .scale(g_scale).gain(0.7).lpf(4000).room(0.4).delay(0.3)
+const guitarOverdrive = sound("gm_overdriven_guitar")
+  .note("<E3 B2 E3 G3 B3 E3 A2 B3 ~ G3 E3 A2 B2 E3 G3 ~ B2 E3 G3 B2 E3 A2 ~>")
+  .scale(g_scale).gain(0.6).lpf(3500).room(0.3).shape(0.2)
+const bass = sound("gm_electric_bass_pick")
+  .note("E2 ~ B1 E2 G2 ~ B1 | E2 A1 B1 ~ G2 E2 | A1 B1 E2 G2 ~ B1 | E2 G2 B1 E2 A1 ~")
+  .scale(g_scale).gain(0.8).lpf(800).room(0.2)
+const drums = stack(
+  sound("amy_bass_drum").note("<[1 ~ ~ ~ 1 ~ 1 ~] [1 ~ 1 ~ ~ 1 ~ ~] [~ 1 ~ ~ 1 ~ ~ 1] [1 ~ ~ 1 ~ 1 ~ ~]>").gain(0.9).room(0.3),
+  sound("amy_snare_drum").note("<[~ ~ ~ ~ ~ ~ 1 ~] [~ ~ 1 ~ ~ ~ ~ ~] [~ ~ ~ ~ 1 ~ ~ ~] [~ ~ ~ ~ ~ ~ 1 ~]>").gain(0.7).room(0.4),
+  sound("amy_closed_hihat").note("1 1 1 1 1 1 1 1").gain(0.4).room(0.2)
+)
+arrange([2, stack(guitarClean, bass, drums)], [4, stack(guitarClean, guitarOverdrive, bass, drums)]).slow(0.5)
+-->
+</strudel-repl>
 
 **Chiptune × Black Metal (175 BPM, E Phrygian Dominant):**
-```javascript
-setcps(0.73);
-const melody = n("0 1 4 5 6 5 4 1").scale("e3:phrygian dominant").s("square").gain(0.3);
-const tremolo = n("0 1 4 5").scale("e3:phrygian dominant").s("sawtooth").distort(0.8).lpf(4000).gain(0.35);
-const blast = s("amy:drums").struct("x*16").gain(0.6);
-stack(melody, tremolo, blast).slow(1);
-```
 
-**Pop Punk (160 BPM, power chords):**
-```javascript
-setcps(0.67);
-const powerChords = note("<e2 a2 d3 g3>/2").s("gm_overdriven_guitar").gain(0.4);
-const palmMute = note("e2").s("gm_electric_guitar_muted").struct("x*8").gain(0.25);
+<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<strudel-repl>
+<!--
+setcpm(175)
+const blastBeats = s("<bd*2 bd*2 bd*2 bd*2> <bd*2 bd*2 bd*2 bd*2>").sound("gm_acoustic_drum_kit").gain(0.9)
+const hiHats = s("hh*16 hh*16 hh*16 hh*16").sound("gm_acoustic_drum_kit").gain(0.7)
+const snare = s("[~ ~ sd ~ ~ ~ sd ~] [~ ~ sd ~ ~ ~ sd ~]").sound("gm_acoustic_drum_kit").gain(0.8)
+const bassTremolo = note("<e1 e1 e1 e1 e1 e1 e1 e1> <f1 f1 f1 f1 f1 f1 f1 f1> <g#1 g#1 g#1 g#1 g#1 g#1 g#1 g#1> <a1 a1 a1 a1 a1 a1 a1 a1>").sound("gm_overdriven_guitar").gain(0.85).lpf(2000).shape(0.6)
+const leadSquare = note("<[e5 e6 e5 e6] [~ ~ ~ ~]> <[f5 f6 f5 f6] [~ ~ ~ ~]> <[g#5 g#6 g#5 g#6] [~ ~ ~ ~]> <[a5 a6 a5 a6] [~ ~ ~ ~]>").sound("gm_square_wave").gain(0.7).lpf(5000).delay(0.3)
+const rhythmGuitar = note("<e2 e2 e2 e2> <f2 f2 f2 f2> <g#2 g#2 g#2 g#2> <a2 a2 a2 a2>").sound("gm_overdriven_guitar").gain(0.8).lpf(1500).shape(0.7)
+const darkPad = note("[e2 ~ ~ ~] [f2 ~ ~ ~] [g#2 ~ ~ ~] [a2 ~ ~ ~]").sound("gm_pad_dark").gain(0.4).room(0.8).slow(4)
+arrange([8, stack(blastBeats, hiHats, snare, bassTremolo, rhythmGuitar, leadSquare, darkPad)], [4, stack(s("bd*4").sound("gm_acoustic_drum_kit").gain(1), note("<e1 e1 e1 e1> <d1 d1 d1 d1> <c1 c1 c1 c1> <b0 b0 b0 b0>").sound("gm_overdriven_guitar").gain(0.9).lpf(1000).shape(0.8), darkPad)], [8, stack(blastBeats, hiHats, snare, bassTremolo, rhythmGuitar, leadSquare, darkPad)])
+-->
+</strudel-repl>
+
+**Pop Punk (Sum 41 Style, 160 BPM, E minor):**
+
+<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<strudel-repl>
+<!--
+setcpm(160)
+const g_scale = "E:minor"
+const guitarMuted = sound("gm_electric_guitar_muted").note("E2 E2 E2 E2 E2 E2 E2 E2").scale(g_scale).gain(0.7).lpf(2500).room(0.1)
+const guitarOverdrive = sound("gm_overdriven_guitar").note("<[E2 E2 E2 E2] [E2 E2 E2 E2] [E2 E2 E2 E2] [E2 E2 E2 E2]>").scale(g_scale).gain(0.8).lpf(4000).room(0.2).shape(0.4)
+const bass = sound("gm_electric_bass_pick").note("E2 E2 E2 E2 E2 E2 E2 E2 G2 G2 G2 G2 G2 G2 G2 G2 A2 A2 A2 A2 A2 A2 A2 A2 B2 B2 B2 B2 B2 B2 B2 B2").scale(g_scale).gain(0.9).lpf(1000).room(0.2)
+const vocals = sound("gm_voice_oohs").note("<E4 ~ ~ ~ E4 ~ ~ ~ G4 ~ ~ ~ G4 ~ ~ ~ A4 ~ ~ ~ A4 ~ ~ ~ B4 ~ ~ ~ B4 ~ ~ ~>").scale(g_scale).gain(0.4).room(0.5).delay(0.3)
 const drums = stack(
-  s("bd").struct("x ~ x ~").gain(0.6),
-  s("sd").struct("~ x ~ x").gain(0.5),
-  s("hh").struct("x*8").gain(0.3)
-);
-stack(powerChords, palmMute, drums).slow(1);
-```
+  sound("gm_kick_drum").note("1 ~ 1 ~ 1 ~ 1 ~").gain(0.9).room(0.2),
+  sound("gm_snare_drum").note("~ ~ 1 ~ ~ ~ 1 ~").gain(0.8).room(0.3),
+  sound("gm_closed_hihat").note("1 1 1 1 1 1 1 1").gain(0.5).room(0.1),
+  sound("gm_crash_cymbal").note("1 ~ ~ ~ ~ ~ ~ ~").gain(0.6).room(0.4)
+)
+arrange([1, stack(guitarMuted, bass, drums)], [2, stack(guitarOverdrive, bass, vocals, drums)]).slow(0.5)
+-->
+</strudel-repl>
 
 </details>
 
@@ -84,6 +120,7 @@ stack(powerChords, palmMute, drums).slow(1);
 - Quartz 4 static site configured at `/Users/macmini/random/blog/`
 - Auto-deploy via GitHub Actions on push
 - Weekly summary cron job scheduled (Fridays 5 PM)
+- Blogwriter skill updated to auto-update index.md
 
 ### Task Organization
 - Organized 50+ todos into categories: High Priority, Tech, Finance, Shopping, Reading/Media, Home, Bike, AI Agents, Ideas
