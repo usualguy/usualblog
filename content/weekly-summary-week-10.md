@@ -72,7 +72,6 @@ arrange([2, stack(guitarClean, bass, drums)], [4, stack(guitarClean, guitarOverd
 
 **Chiptune × Black Metal (175 BPM, E Phrygian Dominant):**
 
-<script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
 <strudel-repl>
 <!--
 setcpm(175)
@@ -89,7 +88,6 @@ arrange([8, stack(blastBeats, hiHats, snare, bassTremolo, rhythmGuitar, leadSqua
 
 **Pop Punk (Sum 41 Style, 160 BPM, E minor):**
 
-<script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
 <strudel-repl>
 <!--
 setcpm(160)
