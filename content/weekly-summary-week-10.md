@@ -31,7 +31,7 @@ Built a complete Strudel-based music generation workflow with 4 distinct genre e
 **Hardbass Techno/IDM (165 BPM, C# minor):**
 
 <script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
-<strudel-repl>
+<strudel-editor>
 <!--
 setcps(0.68)
 const arp = n("0 2 4 6 7 6 4 2").scale("c#3:minor").s("supersaw").distort(0.6).lpf(2000).gain(0.3)
@@ -43,12 +43,12 @@ const drums = stack(
 )
 stack(arp, bass, drums).slow(1)
 -->
-</strudel-repl>
+</strudel-editor>
 
 **Math Rock - Foals "Hummer" Style (148 BPM, E minor, polyrhythms):**
 
 <script src="https://unpkg.com/@strudel/repl@1.0.2"></script>
-<strudel-repl>
+<strudel-editor>
 <!--
 setcpm(148)
 const g_scale = "E:minor"
@@ -68,11 +68,11 @@ const drums = stack(
 )
 arrange([2, stack(guitarClean, bass, drums)], [4, stack(guitarClean, guitarOverdrive, bass, drums)]).slow(0.5)
 -->
-</strudel-repl>
+</strudel-editor>
 
 **Chiptune × Black Metal (175 BPM, E Phrygian Dominant):**
 
-<strudel-repl>
+<strudel-editor>
 <!--
 setcpm(175)
 const blastBeats = s("<bd*2 bd*2 bd*2 bd*2> <bd*2 bd*2 bd*2 bd*2>").sound("gm_acoustic_drum_kit").gain(0.9)
@@ -84,11 +84,11 @@ const rhythmGuitar = note("<e2 e2 e2 e2> <f2 f2 f2 f2> <g#2 g#2 g#2 g#2> <a2 a2 
 const darkPad = note("[e2 ~ ~ ~] [f2 ~ ~ ~] [g#2 ~ ~ ~] [a2 ~ ~ ~]").sound("gm_pad_dark").gain(0.4).room(0.8).slow(4)
 arrange([8, stack(blastBeats, hiHats, snare, bassTremolo, rhythmGuitar, leadSquare, darkPad)], [4, stack(s("bd*4").sound("gm_acoustic_drum_kit").gain(1), note("<e1 e1 e1 e1> <d1 d1 d1 d1> <c1 c1 c1 c1> <b0 b0 b0 b0>").sound("gm_overdriven_guitar").gain(0.9).lpf(1000).shape(0.8), darkPad)], [8, stack(blastBeats, hiHats, snare, bassTremolo, rhythmGuitar, leadSquare, darkPad)])
 -->
-</strudel-repl>
+</strudel-editor>
 
 **Pop Punk (Sum 41 Style, 160 BPM, E minor):**
 
-<strudel-repl>
+<strudel-editor>
 <!--
 setcpm(160)
 const g_scale = "E:minor"
@@ -104,7 +104,7 @@ const drums = stack(
 )
 arrange([1, stack(guitarMuted, bass, drums)], [2, stack(guitarOverdrive, bass, vocals, drums)]).slow(0.5)
 -->
-</strudel-repl>
+</strudel-editor>
 
 </details>
 
