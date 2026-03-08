@@ -57,6 +57,49 @@ def main():
     out_path = Path("output_techno_test.wav")
     wavwrite(str(out_path), sample_rate, out)
     print(f"Wrote {out_path} ({duration_sec}s at {sample_rate} Hz)")
+    
+    # Auto-post to Slack
+    slack_token = os.environ.get("SLACK_BOT_TOKEN")
+    if slack_token:
+        print("Uploading to Slack...")
+        import urllib.request
+        import urllib.parse
+        import json
+        
+        url = "https://slack.com/api/files.upload"
+        boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW"
+        
+        headers = {
+            "Authorization": f"Bearer {slack_token}",
+            "Content-Type": f"multipart/form-data; boundary={boundary}"
+        }
+        
+        # Read file
+        with open(out_path, "rb") as f:
+            file_content = f.read()
+            
+        # Build multipart payload
+        payload = (
+            f"--{boundary}\r\n"
+            f'Content-Disposition: form-data; name="channels"\r\n\r\n'
+            f"C0AK5PG0GQ5\r\n"
+            f"--{boundary}\r\n"
+            f'Content-Disposition: form-data; name="initial_comment"\r\n\r\n'
+            f"Here is the generated techno test track (dron) 🎵🤖\r\n"
+            f"--{boundary}\r\n"
+            f'Content-Disposition: form-data; name="file"; filename="output_techno_test.wav"\r\n'
+            f"Content-Type: audio/wav\r\n\r\n".encode('utf-8')
+        ) + file_content + f"\r\n--{boundary}--\r\n".encode('utf-8')
+        
+        req = urllib.request.Request(url, data=payload, headers=headers)
+        try:
+            with urllib.request.urlopen(req) as response:
+                resp_data = response.read()
+                print("Slack response:", resp_data.decode('utf-8'))
+        except Exception as e:
+            print("Failed to upload to Slack:", e)
+    else:
+        print("SLACK_BOT_TOKEN not set, skipping upload.")
 
 if __name__ == '__main__':
     main()

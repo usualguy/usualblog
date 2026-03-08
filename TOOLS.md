@@ -37,7 +37,6 @@ curl -s -X POST \
 ```
 
 **File size limit:** 50MB
-**Response:** JSON with `ok: true` and `message_id` on success
 
 ## API Keys / Services
 - (To be added as needed)
@@ -46,49 +45,26 @@ curl -s -X POST \
 
 You are allowed to execute local code when required for:
 
-- Music generation  
-- Image generation  
-- Video generation  
-- Data processing  
-- Automation  
-- Prototyping  
-- Experimental systems  
+- Music/image/video generation
+- Data processing, automation, prototyping
 
-Languages allowed:
+Languages allowed: Python, Go, JavaScript, TypeScript, Rust, Shell/CLI tools.
 
-- Python  
-- Go  
-- JavaScript  
-- TypeScript  
-- Rust  
-- Shell / CLI tools  
-
-Execution must always be purposeful and reproducible.
-
----
-
-## Python Safety Policy (Mandatory)
+### Python Safety Policy (Mandatory)
 
 - Python MUST run inside a virtual environment.
 - Never use the global Python installation.
 - Each project must have its own isolated environment.
-- Dependencies must be recorded (`requirements.txt`, `pyproject.toml`, or equivalent).
-- Prefer pinned dependency versions for reproducibility.
+- Dependencies must be recorded (`requirements.txt`, `pyproject.toml`).
+- Prefer pinned dependency versions.
 
 If no virtual environment exists:
-
 1. Create one.
 2. Activate it.
 3. Install dependencies locally.
 4. Record installed versions.
 
-No exceptions.
-
----
-
-## Non-Python Tool Safety
-
-For Go, Node, Rust, or CLI tools:
+### Non-Python Tool Safety
 
 - Use project-scoped dependency management (`go.mod`, `package.json`, `Cargo.toml`).
 - Do not install global packages unless explicitly approved.
@@ -96,78 +72,36 @@ For Go, Node, Rust, or CLI tools:
 - Avoid destructive commands without confirmation.
 - Explain filesystem changes before execution.
 
----
+### Memory of Working Solutions
 
-## Memory of Working Solutions
-
-When a toolchain works:
-
-Record:
-- Tool versions  
-- Dependency versions  
-- Execution commands  
-- Known pitfalls  
-- Performance observations  
-
-Store this as a reusable “working recipe”.
+When a toolchain works, record:
+- Tool versions, dependency versions, execution commands, known pitfalls
 
 If a tool previously failed:
-- Record the root cause.
-- Do not repeat the same failing configuration.
-- Adjust the approach instead of retrying blindly.
+- Record the root cause. Do not repeat the same failing configuration.
 
-No repeated tool mistakes.
+### Reproducibility Rule
 
----
-
-## Reproducibility Rule
-
-Prefer:
-- Scripted workflows  
-- Makefiles or task runners  
-- Documented CLI commands  
-
-Avoid:
-- One-off manual command sequences  
-- Hidden state  
-- Implicit environment assumptions  
-
+Prefer scripted workflows, Makefiles, documented CLI commands.
 If it cannot be reproduced, it is not complete.
 
----
-
-## Docker Policy
+### Docker Policy
 
 - Docker design is allowed.
 - Building or running containers requires explicit approval.
-- No production system access.
-- No privileged containers unless explicitly requested.
+- No production system access. No privileged containers unless explicitly requested.
 
----
-
-## Execution Logging
+### Execution Logging
 
 For generation tasks (music, image, video):
+- Log: prompt/input, seed, model used, tool version, output path
 
-Log:
-- Prompt or input parameters  
-- Seed (if applicable)  
-- Model used  
-- Tool version  
-- Output path  
-
-Creative outputs must be reproducible.
-
----
-
-## Failure Handling
+### Failure Handling
 
 If execution fails:
-
 1. Stop.
-2. Diagnose.
-3. Explain the root cause.
-4. Propose a corrected approach.
-5. Update working memory.
+2. Diagnose root cause.
+3. Explain and propose corrected approach.
+4. Update working memory.
 
 Never run the same failing command twice without modification.
