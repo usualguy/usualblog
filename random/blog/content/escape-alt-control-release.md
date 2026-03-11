@@ -1,3 +1,13 @@
+---
+title: "Escape Alt Control: A Techno Album About Breaking Free from Algorithmic Control"
+created: 2026-03-11
+tags:
+  - music
+  - techno
+  - album
+  - openclaw
+---
+
 # Escape Alt Control: A Techno Album About Breaking Free from Algorithmic Control
 
 **Released:** March 2026  
